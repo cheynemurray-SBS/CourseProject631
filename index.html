@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Course Project Report: BUAD-631-38</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff; --surface:#f4f5f7; --surface-2:#eceef1; --ink:#1d1f24; --muted:#5b6470;
+  --line:#d9dce1; --maroon:#8c1d2c; --maroon-soft:#f6e9eb; --on-maroon:#ffffff;
+  --seg1:#8c1d2c; --seg2:#a8394a; --seg3:#5b6470; --seg4:#7b8591; --seg5:#b98a3e; --seg6:#9a6f2c;
+  --ok:#2f6b4f;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16171b; --surface:#1f2126; --surface-2:#272a30; --ink:#eceef1; --muted:#a3aab4;
+    --line:#353840; --maroon:#e0788a; --maroon-soft:#3a1e24; --on-maroon:#16171b;
+    --seg1:#c94a5e; --seg2:#e0788a; --seg3:#7f8996; --seg4:#a3aab4; --seg5:#d1a85c; --seg6:#b88d45;
+    --ok:#6fbf95; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16171b; --surface:#1f2126; --surface-2:#272a30; --ink:#eceef1; --muted:#a3aab4;
+  --line:#353840; --maroon:#e0788a; --maroon-soft:#3a1e24; --on-maroon:#16171b;
+  --seg1:#c94a5e; --seg2:#e0788a; --seg3:#7f8996; --seg4:#a3aab4; --seg5:#d1a85c; --seg6:#b88d45;
+  --ok:#6fbf95; color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 "Public Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+h1,h2,h3{font-family:"Newsreader",Georgia,"Times New Roman",serif;font-weight:600;line-height:1.15;margin:0}
+a{color:var(--maroon)}
+:focus-visible{outline:3px solid var(--maroon);outline-offset:2px;border-radius:4px}
+.wrap{max-width:960px;margin:0 auto;padding:0 1.25rem}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:1rem;height:56px;overflow-x:auto;scrollbar-width:none}
+.nav .wrap::-webkit-scrollbar{display:none}
+.nav .course{font-weight:700;color:var(--maroon);white-space:nowrap;font-size:.9rem}
+.nav a.l{color:var(--muted);text-decoration:none;font-size:.9rem;white-space:nowrap;padding:.25rem 0}
+.nav a.l:hover{color:var(--ink)}
+.nav .prog{margin-left:auto;white-space:nowrap;font-size:.85rem;color:var(--muted);display:flex;align-items:center;gap:.5rem}
+.nav .prog .bar{width:72px;height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.nav .prog .bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+
+/* hero */
+header.hero{padding:3.5rem 0 2.5rem;border-bottom:1px solid var(--line)}
+.kicker{color:var(--maroon);font-weight:600;font-size:.95rem;margin:0 0 .75rem}
+.hero h1{font-size:clamp(2.1rem,5vw,3.4rem);max-width:16ch;letter-spacing:-.01em}
+.hero p.lede{font-size:1.15rem;color:var(--muted);max-width:60ch;margin:1.25rem 0 2rem}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.facts div{background:var(--bg);padding:1rem 1.1rem}
+.facts dt{font-size:.82rem;color:var(--muted);margin-bottom:.2rem}
+.facts dd{margin:0;font-weight:600}
+
+section{padding:3rem 0;border-bottom:1px solid var(--line)}
+section h2{font-size:clamp(1.6rem,3.2vw,2.1rem);margin-bottom:.6rem}
+section > .wrap > p.intro{color:var(--muted);max-width:62ch;margin:0 0 1.75rem}
+
+/* rules */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.rule{border-left:3px solid var(--maroon);padding:.2rem 0 .2rem 1rem}
+.rule h3{font-family:"Public Sans",system-ui,sans-serif;font-size:1rem;font-weight:700;margin-bottom:.35rem}
+.rule ul{margin:0;padding-left:1.1rem;color:var(--ink)}
+.rule li{margin:.2rem 0}
+.honesty{margin-top:2rem;background:var(--maroon-soft);border-radius:10px;padding:1.25rem 1.4rem}
+.honesty strong{color:var(--maroon)}
+code,.file{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.9em;background:var(--surface);padding:.1em .4em;border-radius:4px;word-break:break-all}
+
+/* issues tabs */
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.tab{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:.55rem 1.1rem;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--maroon);border-color:var(--maroon);color:var(--on-maroon)}
+.panel{background:var(--surface);border-radius:12px;padding:1.6rem 1.6rem 1.4rem}
+.panel[hidden]{display:none}
+.panel h3{font-size:1.5rem;margin-bottom:.75rem}
+.panel .ctx{max-width:65ch}
+.panel .task{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line);max-width:65ch}
+.args{display:grid;gap:.75rem;margin:1rem 0 0}
+.arg{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem}
+.arg b{color:var(--maroon)}
+
+/* points bar */
+.pts{margin:0 0 2rem}
+.pts .bar{display:flex;height:56px;border-radius:10px;overflow:hidden;gap:2px}
+.pts button{all:unset;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.95rem;transition:filter .2s,transform .2s}
+.pts button:hover,.pts button:focus-visible{filter:brightness(1.12)}
+.pts button:focus-visible{outline:3px solid var(--ink);outline-offset:-3px}
+.pts .legend{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-top:.5rem}
+
+/* components */
+.comp{border:1px solid var(--line);border-radius:12px;margin-bottom:.9rem;background:var(--bg);overflow:hidden}
+.comp summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;padding:1.1rem 1.25rem}
+.comp summary::-webkit-details-marker{display:none}
+.comp .n{width:2.2rem;height:2.2rem;border-radius:50%;display:grid;place-items:center;font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:1.2rem;color:#fff}
+.comp .t{font-weight:700;font-size:1.05rem}
+.comp .t small{display:block;font-weight:400;color:var(--muted);font-size:.9rem}
+.comp .p{font-weight:700;white-space:nowrap}
+.comp .p::after{content:"";display:inline-block;width:.5rem;height:.5rem;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg) translateY(-3px);margin-left:.9rem;transition:transform .2s}
+.comp[open] .p::after{transform:rotate(-135deg) translateY(-1px)}
+.comp .body{padding:0 1.25rem 1.4rem 4.45rem;max-width:calc(65ch + 4.45rem)}
+.comp .body ul{padding-left:1.1rem;margin:.4rem 0}
+.comp .body li{margin:.25rem 0}
+.comp .ex{background:var(--surface);border-radius:8px;padding:.85rem 1rem;margin:.9rem 0 0;font-size:.95rem}
+.comp .ex b{display:block;font-size:.82rem;color:var(--muted);font-weight:600;margin-bottom:.2rem}
+.comp.flash{box-shadow:0 0 0 3px var(--maroon)}
+@media (max-width:600px){.comp .body{padding-left:1.25rem}}
+
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:.9rem 0;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;vertical-align:top;padding:.65rem .8rem;border-bottom:1px solid var(--line)}
+th{background:var(--surface);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.vt{min-width:760px}
+
+/* rubric */
+.bands{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin-top:1.5rem}
+.band{border-radius:10px;padding:1rem 1.1rem;background:var(--surface)}
+.band .r{font-family:"Newsreader",Georgia,serif;font-size:1.5rem;font-weight:600}
+.band .g{font-size:.85rem;color:var(--muted);margin-bottom:.35rem}
+.band p{margin:0;font-size:.92rem}
+.band.top{background:var(--maroon-soft)}
+.band.top .r{color:var(--maroon)}
+
+/* mistakes */
+.mist{display:grid;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mist div{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:1.5rem;padding:1rem 1.25rem;border-bottom:1px solid var(--line)}
+.mist div:last-child{border-bottom:0}
+.mist div:nth-child(odd){background:var(--surface)}
+.mist b{font-weight:600}
+.mist span{color:var(--muted)}
+@media (max-width:600px){.mist div{grid-template-columns:1fr;gap:.25rem}}
+
+/* checklist */
+.check{display:grid;gap:.5rem;max-width:720px}
+.check label{display:flex;gap:.85rem;align-items:flex-start;padding:.75rem 1rem;border:1px solid var(--line);border-radius:10px;cursor:pointer;transition:background .2s,border-color .2s}
+.check input{appearance:none;flex:none;width:1.3rem;height:1.3rem;margin:.1rem 0 0;border:2px solid var(--muted);border-radius:5px;display:grid;place-items:center;cursor:pointer}
+.check input:checked{background:var(--ok);border-color:var(--ok)}
+.check input:checked::after{content:"";width:.35rem;height:.65rem;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.check label:has(input:checked){background:var(--surface);border-color:transparent}
+.check label:has(input:checked) span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
+.check .sub{margin-left:2.15rem}
+.checkhead{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.checkhead .count{font-weight:700}
+.btn{font:inherit;font-weight:600;font-size:.9rem;background:none;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:.4rem .9rem;cursor:pointer}
+.btn:hover{color:var(--ink);border-color:var(--muted)}
+.done-msg{color:var(--ok);font-weight:600}
+
+/* tips & resources */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+.two h3{font-size:1.3rem;margin-bottom:.6rem}
+.two ul{padding-left:1.1rem;margin:0}
+.two li{margin:.35rem 0}
+.do{display:grid;gap:.6rem;margin-top:.5rem}
+.do div{font-size:.95rem;padding:.7rem .9rem;border-radius:8px;background:var(--surface)}
+.do s{color:var(--muted)}
+
+pre.data{position:relative;margin:.9rem 0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.9rem 1rem;overflow-x:auto;font:400 .85rem/1.55 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.copy{position:absolute;top:.5rem;right:.5rem;font:600 .8rem "Public Sans",system-ui,sans-serif;background:var(--bg);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:.25rem .7rem;cursor:pointer}
+.copy:hover{color:var(--ink)}
+.scen{border-left:3px solid var(--maroon);padding:.1rem 0 .1rem 1rem;margin:0 0 1rem}
+.q{margin:1.4rem 0 .4rem;font-family:"Public Sans",system-ui,sans-serif;font-size:1rem;font-weight:700}
+.q span{color:var(--muted);font-weight:500}
+.body ol.sub{padding-left:1.3rem;margin:.4rem 0}
+.body ol.sub>li{margin:.55rem 0}
+.body ol.sub ul{margin:.25rem 0}
+.weights{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.75rem;margin-top:1.5rem}
+.weights div{background:var(--surface);border-radius:10px;padding:.9rem 1rem}
+.weights .r{font-family:"Newsreader",Georgia,serif;font-size:1.5rem;font-weight:600}
+.weights p{margin:0;font-size:.92rem;color:var(--muted)}
+.ok-list li::marker{color:var(--ok)}
+.no-list li::marker{color:var(--maroon)}
+footer{padding:2.5rem 0 3rem;color:var(--muted);font-size:.9rem}
+@media print{.nav,.btn{display:none}.comp .body{display:block}details>*{display:block}}
+.sym{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:.7rem;margin-top:1rem}
+.sym button{display:flex;flex-direction:column;align-items:flex-start;gap:.15rem;text-align:left;padding:.75rem .9rem;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);cursor:pointer;font:inherit}
+.sym button:hover{border-color:var(--maroon)}
+.sym button:focus-visible{outline:2px solid var(--maroon);outline-offset:2px}
+.sym .g{font:600 1.6rem/1.1 "Newsreader",Georgia,serif;color:var(--maroon)}
+.sym .nm{font:700 .9rem "Public Sans",system-ui,sans-serif}
+.sym .mn{font-size:.88rem;color:var(--muted);line-height:1.4}
+.sym .eg{font:500 .82rem ui-monospace,"SF Mono",Menlo,Consolas,monospace;margin-top:.25rem}
+.sym button.ok{background:var(--maroon);border-color:var(--maroon)}
+.sym button.ok span{color:#fff}
+.symnote{color:var(--muted);font-size:.92rem;margin-top:.6rem;min-height:1.4em}
+.tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.6rem;margin:.6rem 0 1rem}
+.tasks div{background:var(--surface);border-radius:8px;padding:.7rem .85rem;font-size:.95rem}
+.tasks b{display:block;color:var(--maroon);font-family:"Public Sans",system-ui,sans-serif;font-size:.85rem;letter-spacing:.02em}
+.secnote{font-size:.95rem;color:var(--muted);margin:.2rem 0 .6rem}
+.purpose{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem;margin-top:1.5rem}
+.purpose div{background:var(--surface);border-radius:10px;padding:.9rem 1rem;font-size:.95rem}
+.purpose b{display:block;font-family:"Newsreader",Georgia,serif;font-size:1.35rem;color:var(--maroon);line-height:1.1;margin-bottom:.2rem}
+.hyp{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:.9rem;line-height:1.7}
+.gtable td:first-child{white-space:nowrap;font-weight:600}
+.warnnote{margin-top:1rem;font-size:.92rem;color:var(--muted)}
+.code-h{font-weight:700;margin:1.2rem 0 .2rem;font-size:.95rem}
+.bg{display:grid;gap:.6rem;margin-top:.5rem}
+.bg div{border-radius:8px;padding:.75rem .9rem;font-size:.95rem;background:var(--surface)}
+.bg .bad{border-left:3px solid var(--maroon)}
+.bg .good{border-left:3px solid var(--ok)}
+.bg em{font-style:normal;font-weight:700;margin-right:.35rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0}
+.chips a,.chips span{font-size:.9rem;border:1px solid var(--line);border-radius:999px;padding:.3rem .8rem;text-decoration:none;color:var(--ink);background:var(--bg)}
+.chips a:hover{border-color:var(--maroon);color:var(--maroon)}
+.faq details{border-bottom:1px solid var(--line);padding:.8rem 0}
+.faq summary{cursor:pointer;font-weight:600}
+.faq p{margin:.5rem 0 0;color:var(--muted);max-width:68ch}
+pre.data code{background:none;padding:0;word-break:normal;white-space:pre}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Project sections">
+  <div class="wrap">
+    <span class="course">BUAD-631-38</span>
+    <a class="l" href="#rules">Overview</a>
+    <a class="l" href="#report">Report</a>
+    <a class="l" href="#grading">Grading</a>
+    <a class="l" href="#python">Python</a>
+    <a class="l" href="#format">Format</a>
+    <a class="l" href="#hints">Hints</a>
+    <a class="l" href="#checklist">Checklist</a>
+    <span class="prog" aria-live="polite"><span class="bar"><i id="navbar"></i></span><span id="navcount">0 of 0</span></span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="kicker">Course Project, Statistical Inference Analysis for Business Decision-Making</p>
+    <h1>Answer a real business question with real data</h1>
+    <p class="lede">Take the problem from your proposal all the way through: gather real data, build a confidence interval and run a hypothesis test in Python, and write a report that tells decision-makers what it means.</p>
+    <dl class="facts">
+      <div><dt>Due</dt><dd>Sun, Dec 13, 2026, 11:59pm</dd></div>
+      <div><dt>Points</dt><dd>100, four criteria of 25 each</dd></div>
+      <div><dt>Length</dt><dd>8 to 12 pages, plus appendices</dd></div>
+      <div><dt>You submit</dt><dd>Report (PDF), notebook (.ipynb), and your data</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+<section id="rules">
+  <div class="wrap">
+    <h2>What this project asks of you</h2>
+    <div class="purpose">
+      <div><b>Identify</b>A real, interesting business, organizational, or personal problem in an area you care about</div>
+      <div><b>Gather</b>Data appropriate for statistical analysis</div>
+      <div><b>Analyze</b>The problem with Python and statistical inference methods</div>
+      <div><b>Report</b>Why the analysis matters for the problem you chose</div>
+    </div>
+
+    <h2 style="margin-top:2.5rem">Requirements</h2>
+    <p class="intro">Projects that miss these can’t earn full credit, however strong the writing.</p>
+    <div class="rules">
+      <div class="rule">
+        <h3>Statistical inference required</h3>
+        <ul>
+          <li>Confidence intervals for population parameters</li>
+          <li>Hypothesis testing, such as a one-sample t-test</li>
+          <li>Proper inference procedures, not just descriptive statistics</li>
+        </ul>
+      </div>
+      <div class="rule">
+        <h3>Real data</h3>
+        <ul>
+          <li><strong>Primary:</strong> surveys, experiments, or observations you collect</li>
+          <li><strong>Secondary:</strong> company records, libraries, newspapers, textbooks, or published datasets</li>
+          <li>At least 30 observations (n ≥ 30)</li>
+          <li>Different from any dataset analyzed in class</li>
+        </ul>
+      </div>
+      <div class="rule">
+        <h3>Three files</h3>
+        <ul>
+          <li>Written report, as a PDF</li>
+          <li>Jupyter Notebook (.ipynb) with all code and output</li>
+          <li>Your dataset (CSV or Excel) with a data dictionary, if you used your own data</li>
+          <li>Name them like <span class="file">Lastname-Firstname-631-38-ProjectReport.pdf</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="honesty">
+      <strong>Made-up data needs permission.</strong> If you can’t get real data because of time constraints, and for no other reason, contact the instructor to request permission to use realistic made-up data. Ask before you start your analysis.
+    </div>
+  </div>
+</section>
+
+<section id="report">
+  <div class="wrap">
+    <h2>Report structure</h2>
+    <p class="intro">Your report must include all nine components, in this order. Page ranges are guides for the 8- to 12-page main report.</p>
+    <details class="comp" id="r1" open>
+      <summary><span class="n" style="background:var(--seg1)">1</span><span class="t">Executive summary<small>Write it last, place it first</small></span><span class="p">½–1 page</span></summary>
+      <div class="body"><ul><li>A brief overview of the problem, in 2 or 3 sentences</li><li>Key findings from your analysis, in 2 or 3 sentences</li><li>Your main recommendations, in 2 or 3 sentences</li><li>Understandable to a non-technical executive</li></ul><div class="ex"><b>Example</b>This analysis examines whether customer satisfaction at RetailCo meets the company’s target of 7.5 out of 10. Based on a sample of 150 customer surveys, we are 95% confident that true average satisfaction is between 7.2 and 7.6 (mean = 7.4). While we cannot definitively conclude satisfaction is below target (p = 0.08), the evidence suggests it may be underperforming. We recommend implementing customer experience improvements and re-evaluating after 6 months.</div></div>
+    </details><details class="comp" id="r2">
+      <summary><span class="n" style="background:var(--seg1)">2</span><span class="t">Introduction and business context<small>Background, problem, and research question</small></span><span class="p">1–2 pages</span></summary>
+      <div class="body"><p class="q">2.1 Background</p><ul><li>Describe the organization, industry, or context</li><li>Explain why this problem matters</li><li>Identify the stakeholders who care about the outcome</li></ul><p class="q">2.2 Problem statement</p><ul><li>State the specific problem clearly</li><li>Define the variable or variables you’re analyzing</li><li>Explain what decision needs to be made</li></ul><p class="q">2.3 Research question</p><ul><li>State your specific research question</li><li>Define your null and alternative hypotheses</li><li>Specify your target value or benchmark</li></ul><div class="ex"><b>Example</b><span class="hyp">Research question: Is the average customer satisfaction score significantly different from the target of 7.5?<br>H₀: µ = 7.5 (satisfaction meets target)<br>Hₐ: µ ≠ 7.5 (satisfaction differs from target)</span></div></div>
+    </details><details class="comp" id="r3">
+      <summary><span class="n" style="background:var(--seg3)">3</span><span class="t">Data description<small>Source, sample, variables, and a first look</small></span><span class="p">1 page</span></summary>
+      <div class="body"><p class="q">3.1 Data source</p><ul><li>Where the data came from</li><li>When it was collected</li><li>The sampling method</li></ul><p class="q">3.2 Sample characteristics</p><ul><li>Sample size (n)</li><li>Time period covered</li><li>Any exclusions or filtering applied</li></ul><p class="q">3.3 Variable definition</p><ul><li>The variable or variables you’re analyzing</li><li>How each is measured: scale and units</li><li>Any data quality issues</li></ul><p class="q">3.4 Descriptive statistics</p><p style="margin:.2rem 0">A table with n, mean, standard deviation, median, minimum and maximum, and any outliers identified.</p><p class="q">3.5 Data visualization</p><p style="margin:.2rem 0">At least one chart of the distribution: a histogram, box plot, or density plot.</p></div>
+    </details><details class="comp" id="r4">
+      <summary><span class="n" style="background:var(--seg3)">4</span><span class="t">Statistical methodology<small>Why this analysis, assumptions, and α</small></span><span class="p">1–2 pages</span></summary>
+      <div class="body"><p class="q">4.1 Why this analysis?</p><ul><li>Why a confidence interval is appropriate</li><li>Why a t-test instead of a z-test</li><li>What makes this the right tool for your question</li></ul><p class="q">4.2 Assumptions</p><ul><li><strong>Random sampling:</strong> how was the sample selected?</li><li><strong>Independence:</strong> are observations independent?</li><li><strong>Normality:</strong> is the data approximately normal? Include a normality test or Q-Q plot.</li><li><strong>Sample size:</strong> is n large enough?</li></ul><p style="margin:.4rem 0">Address any violated assumptions and explain their impact.</p><p class="q">4.3 Significance level</p><ul><li>State your α level, typically 0.05</li><li>Justify why it fits your business context</li><li>Discuss the costs of Type I vs. Type II errors</li></ul></div>
+    </details><details class="comp" id="r5">
+      <summary><span class="n" style="background:var(--seg5)">5</span><span class="t">Analysis and results<small>Interval, test, and practical significance</small></span><span class="p">2–3 pages</span></summary>
+      <div class="body"><p class="q">5.1 Confidence interval</p><p style="margin:.2rem 0">Show every piece of the calculation:</p><div class="ex"><b>Report these values</b><span class="hyp">Sample mean (x̄) · Sample SD (s) · Sample size (n) · Confidence level = 95%<br>Standard error = s / √n · Degrees of freedom = n − 1 · t-critical value<br>Margin of error = t* × SE · 95% CI = (lower, upper)</span></div><p style="margin:.6rem 0 .2rem"><strong>Interpretation:</strong> “We are 95% confident that the true population mean [variable] is between [lower] and [upper] [units].” Include an error bar or confidence interval plot.</p><p class="q">5.2 Hypothesis test</p><ul><li>Hypotheses: H₀: µ = [target]; Hₐ: µ ≠, &gt;, or &lt; [target], depending on your question</li><li>Test statistic: t = (x̄ − µ₀) / (s / √n)</li><li>The p-value</li><li>Decision: if p &lt; α, reject the null hypothesis; if p ≥ α, fail to reject it</li><li>A clear statement of what the test tells you statistically</li><li>A visualization: a distribution plot showing the test statistic, or the sample mean vs. the target</li></ul><p class="q">5.3 Effect size and practical significance</p><ul><li>How large is the difference, in original units?</li><li>Is it meaningful in business terms?</li><li>What is the practical impact?</li></ul><div class="ex"><b>Example</b>While the difference is not statistically significant (p = 0.08), the point estimate suggests satisfaction may be 0.1 points below target. For a company with 1 million customers, even a 0.1-point difference could represent [X] dollars in lost revenue or [Y] customers at risk of churning.</div></div>
+    </details><details class="comp" id="r6">
+      <summary><span class="n" style="background:var(--seg5)">6</span><span class="t">Discussion and business implications<small>What it means and what to do</small></span><span class="p">1–2 pages</span></summary>
+      <div class="body"><p class="q">6.1 Interpretation for a business audience</p><ul><li>Translate statistical findings into business language</li><li>Avoid jargon; explain what the results mean in context</li><li>Connect findings back to the original problem</li></ul><p class="q">6.2 Limitations</p><ul><li>Sample size constraints</li><li>Potential biases in data collection</li><li>Assumptions that may be questionable</li><li>External factors not controlled for</li><li>Generalizability concerns</li></ul><p class="q">6.3 Recommendations</p><ul><li>Specific and actionable</li><li>Multiple scenarios, if appropriate</li><li>Acknowledge the uncertainty in your recommendations</li></ul><p class="q">6.4 Future analysis</p><ul><li>A larger sample?</li><li>Different time periods?</li><li>Comparison groups?</li><li>Additional variables?</li></ul></div>
+    </details><details class="comp" id="r7">
+      <summary><span class="n" style="background:var(--seg4)">7</span><span class="t">Conclusion<small>Concise and focused</small></span><span class="p">½ page</span></summary>
+      <div class="body"><ul><li>The problem addressed</li><li>Key findings</li><li>Main recommendation</li><li>Next steps</li></ul></div>
+    </details><details class="comp" id="r8">
+      <summary><span class="n" style="background:var(--seg4)">8</span><span class="t">References<small>APA, MLA, or Chicago, used consistently</small></span><span class="p"></span></summary>
+      <div class="body"><p style="margin-top:0">Cite every data source, article, textbook, or other resource you used.</p></div>
+    </details><details class="comp" id="r9">
+      <summary><span class="n" style="background:var(--seg4)">9</span><span class="t">Appendices<small>Not counted in page length</small></span><span class="p"></span></summary>
+      <div class="body"><p class="q">Appendix A: Python code</p><ul><li>Complete, well-commented code</li><li>Reproducible, with clear variable names</li><li>Comments explaining each major step</li></ul><p class="q">Appendix B: Additional tables and figures</p><ul><li>Supplementary analysis</li><li>Detailed data tables</li><li>Additional visualizations</li></ul></div>
+    </details>
+  </div>
+</section>
+
+<section id="grading">
+  <div class="wrap">
+    <h2>How it’s graded</h2>
+    <p class="intro">Four criteria, weighted equally at 25 points each. Select a segment to jump to its rubric.</p>
+    <div class="pts">
+      <div class="bar">
+        <button style="flex:25;background:var(--seg1)" data-go="g1" aria-label="Relevance, 25 points">25</button>
+        <button style="flex:25;background:var(--seg3)" data-go="g2" aria-label="Appropriateness, 25 points">25</button>
+        <button style="flex:25;background:var(--seg5)" data-go="g3" aria-label="Correctness, 25 points">25</button>
+        <button style="flex:25;background:var(--seg4)" data-go="g4" aria-label="Writing, 25 points">25</button>
+      </div>
+      <div class="legend"><span>Relevance · Appropriateness</span><span>Correctness · Writing</span></div>
+    </div>
+    <details class="comp" id="g1" open>
+      <summary><span class="n" style="background:var(--seg1)">1</span><span class="t">Relevance (usefulness) of the problem<small>Why it matters and who benefits</small></span><span class="p">25 pts</span></summary>
+      <div class="body"><p class="q">Questions you should answer</p><ul><li>Why is this a good problem to study?</li><li>Who will benefit from the results, and how?</li><li>Is the problem clearly connected to real business or organizational decisions?</li></ul><p class="q">Include in your report</p><ul><li>A clear description of the business context</li><li>Why the problem matters to stakeholders</li><li>Who will use the results and how</li><li>The connection to strategic or operational decisions</li></ul><div class="scroll"><table class="gtable"><thead><tr><th>Points</th><th>Rating</th><th>What it looks like</th></tr></thead><tbody><tr><td>22–25</td><td>Excellent</td><td>Highly relevant with clear business impact; stakeholders and benefits well defined; strong connection to decision-making</td></tr><tr><td>18–21</td><td>Good</td><td>Relevant; stakeholders identified; reasonable connection to business needs</td></tr><tr><td>14–17</td><td>Satisfactory</td><td>Somewhat relevant, but benefits are vague; limited connection to real decisions</td></tr><tr><td>0–13</td><td>Needs improvement</td><td>Lacks clear relevance; stakeholders unclear; weak business justification</td></tr></tbody></table></div></div>
+    </details><details class="comp" id="g2">
+      <summary><span class="n" style="background:var(--seg3)">2</span><span class="t">Appropriateness of the statistical analysis<small>Right method, good data, assumptions checked</small></span><span class="p">25 pts</span></summary>
+      <div class="body"><p class="q">Questions you should answer</p><ul><li>Is this the best analysis for the problem? Why?</li><li>Did you gather good data?</li><li>Are the methods appropriate for the data type and business question?</li></ul><p class="q">Include in your report</p><ul><li>Justification for your statistical methods</li><li>Why your data is appropriate for the analysis</li><li>Discussion of assumptions, such as normality and independence, and whether they’re met</li><li>Acknowledgment of data limitations</li></ul><div class="scroll"><table class="gtable"><thead><tr><th>Points</th><th>Rating</th><th>What it looks like</th></tr></thead><tbody><tr><td>22–25</td><td>Excellent</td><td>Methods perfectly suited to the problem; high data quality; assumptions checked and addressed; alternative approaches considered</td></tr><tr><td>18–21</td><td>Good</td><td>Appropriate methods; adequate data; assumptions mostly addressed</td></tr><tr><td>14–17</td><td>Satisfactory</td><td>Acceptable but possibly not optimal methods; some data limitations; assumptions partially addressed</td></tr><tr><td>0–13</td><td>Needs improvement</td><td>Inappropriate methods; poor data quality; assumptions ignored</td></tr></tbody></table></div></div>
+    </details><details class="comp" id="g3">
+      <summary><span class="n" style="background:var(--seg5)">3</span><span class="t">Correctness of analysis and interpretation<small>Accurate results, read correctly</small></span><span class="p">25 pts</span></summary>
+      <div class="body"><p class="q">Questions you should answer</p><ul><li>Did you use the statistical package correctly?</li><li>Did you interpret the results correctly for the business problem?</li><li>Are calculations accurate and documented?</li></ul><p class="q">Include in your report</p><ul><li>Correct confidence intervals and hypothesis tests</li><li>Accurate interpretation of p-values, intervals, and test statistics</li><li>Proper conclusions from the results</li><li>Statistical vs. practical significance</li><li>Well-documented, reproducible Python code</li></ul><div class="scroll"><table class="gtable"><thead><tr><th>Points</th><th>Rating</th><th>What it looks like</th></tr></thead><tbody><tr><td>22–25</td><td>Excellent</td><td>All procedures correct; accurate, nuanced interpretations; clear statistical vs. practical significance; clean, documented code</td></tr><tr><td>18–21</td><td>Good</td><td>Mostly correct; interpretations generally accurate; minor errors that don’t affect conclusions; functional code</td></tr><tr><td>14–17</td><td>Satisfactory</td><td>Some errors in execution or interpretation; conclusions somewhat supported; code works but may have issues</td></tr><tr><td>0–13</td><td>Needs improvement</td><td>Major errors; misinterpreted results; incorrect conclusions; code has significant problems</td></tr></tbody></table></div></div>
+    </details><details class="comp" id="g4">
+      <summary><span class="n" style="background:var(--seg4)">4</span><span class="t">Quality of writing<small>Clear, organized, and professional</small></span><span class="p">25 pts</span></summary>
+      <div class="body"><p class="q">Questions you should answer</p><ul><li>Did you communicate the research and results properly to the audience?</li><li>Is the report well organized, clear, and professional?</li><li>Are visualizations effective and labeled?</li></ul><p class="q">Include in your report</p><ul><li>Clear, professional writing for a business audience</li><li>A well-organized structure with logical flow</li><li>Effective visualizations with labels, titles, and captions</li><li>Proper citation of data sources</li><li>An executive summary non-technical stakeholders can understand</li></ul><div class="scroll"><table class="gtable"><thead><tr><th>Points</th><th>Rating</th><th>What it looks like</th></tr></thead><tbody><tr><td>22–25</td><td>Excellent</td><td>Clear, professional, and engaging; well organized; publication-quality visuals; no grammatical errors; right for executives</td></tr><tr><td>18–21</td><td>Good</td><td>Clear and professional; good organization; effective visuals; few grammatical errors</td></tr><tr><td>14–17</td><td>Satisfactory</td><td>Adequate but unclear in places; acceptable organization; visuals need work; some grammatical errors</td></tr><tr><td>0–13</td><td>Needs improvement</td><td>Unclear or unprofessional; poor organization; ineffective visuals; many errors</td></tr></tbody></table></div></div>
+    </details>
+  </div>
+</section>
+
+<section id="python">
+  <div class="wrap">
+    <h2>Python requirements</h2>
+    <p class="intro">Implement your analysis in a Jupyter Notebook with these libraries and analyses. Replace <code>your_data.csv</code>, <code>your_variable</code>, and the target value with your own.</p>
+    <p class="code-h">Required libraries</p><pre class="data"><button class="copy" type="button">Copy</button><code>import pandas as pd
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+import seaborn as sns</code></pre><p class="code-h">1. Data import and cleaning</p><pre class="data"><button class="copy" type="button">Copy</button><code># Load data
+data = pd.read_csv(&#x27;your_data.csv&#x27;)
+
+# Display basic info
+print(data.head())
+print(data.describe())
+print(data.info())</code></pre><p class="code-h">2. Descriptive statistics</p><pre class="data"><button class="copy" type="button">Copy</button><code># Calculate key statistics
+mean_value = data[&#x27;your_variable&#x27;].mean()
+std_value = data[&#x27;your_variable&#x27;].std()
+n = len(data[&#x27;your_variable&#x27;])
+
+print(f&quot;Sample Mean: {mean_value}&quot;)
+print(f&quot;Sample SD: {std_value}&quot;)
+print(f&quot;Sample Size: {n}&quot;)</code></pre><p class="code-h">3. Check assumptions</p><pre class="data"><button class="copy" type="button">Copy</button><code># Normality test
+from scipy.stats import shapiro
+stat, p_value = shapiro(data[&#x27;your_variable&#x27;])
+print(f&quot;Shapiro-Wilk test: p-value = {p_value}&quot;)
+
+# Q-Q plot
+from scipy.stats import probplot
+probplot(data[&#x27;your_variable&#x27;], dist=&quot;norm&quot;, plot=plt)
+plt.title(&quot;Q-Q Plot&quot;)
+plt.show()</code></pre><p class="code-h">4. Confidence interval</p><pre class="data"><button class="copy" type="button">Copy</button><code>confidence_level = 0.95
+degrees_freedom = n - 1
+t_critical = stats.t.ppf((1 + confidence_level) / 2, degrees_freedom)
+
+standard_error = std_value / np.sqrt(n)
+margin_error = t_critical * standard_error
+
+ci_lower = mean_value - margin_error
+ci_upper = mean_value + margin_error
+
+print(f&quot;95% Confidence Interval: ({ci_lower:.2f}, {ci_upper:.2f})&quot;)</code></pre><p class="code-h">5. One-sample t-test</p><pre class="data"><button class="copy" type="button">Copy</button><code># Define hypothesized population mean
+target_value = 7.5  # example
+
+# Perform one-sample t-test
+t_statistic, p_value = stats.ttest_1samp(data[&#x27;your_variable&#x27;], target_value)
+
+print(f&quot;t-statistic: {t_statistic:.3f}&quot;)
+print(f&quot;p-value: {p_value:.3f}&quot;)
+
+# Decision
+alpha = 0.05
+if p_value &lt; alpha:
+    print(&quot;Reject null hypothesis&quot;)
+else:
+    print(&quot;Fail to reject null hypothesis&quot;)</code></pre><p class="code-h">6. Visualizations</p><pre class="data"><button class="copy" type="button">Copy</button><code># Histogram with confidence interval
+plt.figure(figsize=(10, 6))
+plt.hist(data[&#x27;your_variable&#x27;], bins=20, edgecolor=&#x27;black&#x27;, alpha=0.7)
+plt.axvline(mean_value, color=&#x27;red&#x27;, linestyle=&#x27;--&#x27;, label=f&#x27;Mean: {mean_value:.2f}&#x27;)
+plt.axvline(ci_lower, color=&#x27;green&#x27;, linestyle=&#x27;--&#x27;, label=&#x27;95% CI&#x27;)
+plt.axvline(ci_upper, color=&#x27;green&#x27;, linestyle=&#x27;--&#x27;)
+plt.axvline(target_value, color=&#x27;blue&#x27;, linestyle=&#x27;-&#x27;, label=f&#x27;Target: {target_value}&#x27;)
+plt.xlabel(&#x27;Your Variable&#x27;)
+plt.ylabel(&#x27;Frequency&#x27;)
+plt.title(&#x27;Distribution of Your Variable with CI&#x27;)
+plt.legend()
+plt.show()
+
+# Box plot
+plt.figure(figsize=(8, 6))
+plt.boxplot(data[&#x27;your_variable&#x27;])
+plt.ylabel(&#x27;Your Variable&#x27;)
+plt.title(&#x27;Box Plot of Your Variable&#x27;)
+plt.show()
+
+# Confidence interval visualization
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.errorbar(x=[&#x27;Sample&#x27;], y=[mean_value],
+            yerr=[[mean_value - ci_lower], [ci_upper - mean_value]],
+            fmt=&#x27;o&#x27;, markersize=10, capsize=10, capthick=2, label=&#x27;95% CI&#x27;)
+ax.axhline(y=target_value, color=&#x27;r&#x27;, linestyle=&#x27;--&#x27;, label=f&#x27;Target: {target_value}&#x27;)
+ax.set_ylabel(&#x27;Your Variable&#x27;)
+ax.set_title(&#x27;Sample Mean with 95% Confidence Interval&#x27;)
+ax.legend()
+plt.show()</code></pre>
+    <h3 style="margin-top:2rem;font-size:1.3rem">Code documentation</h3>
+    <div class="rules" style="margin-top:.8rem">
+      <div class="rule"><h3>Comments</h3><ul><li>A comment for each section: # Step 1: Import and explore data</li></ul></div>
+      <div class="rule"><h3>Clear names</h3><ul><li><code>customer_satisfaction_mean</code>, not <code>x</code></li></ul></div>
+      <div class="rule"><h3>Labeled output</h3><ul><li><code>print(f"Sample Mean: {mean_value:.2f}")</code>, not just the number</li></ul></div>
+      <div class="rule"><h3>Reproducible</h3><ul><li>Set a random seed if needed, document transformations, and show every intermediate step</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="format">
+  <div class="wrap">
+    <h2>Formatting standards</h2>
+    <div class="rules">
+      <div class="rule"><h3>Report</h3><ul><li>8 to 12 pages, excluding appendices</li><li>11 or 12 point Times New Roman, Arial, or Calibri</li><li>1.5 or double spacing; 1-inch margins</li><li>Page numbers; submitted as a PDF</li></ul></div>
+      <div class="rule"><h3>Figures</h3><ul><li>At least 3 high-quality visualizations</li><li>Every figure has a title</li><li>Every axis labeled, with units</li><li>Legends where needed; professional colors; high resolution</li></ul></div>
+      <div class="rule"><h3>Tables</h3><ul><li>Every table has a title</li><li>Clear column headers, with units</li><li>Numbered in order: Table 1, Table 2, and so on</li></ul></div>
+    </div>
+
+    <h2 style="margin-top:2.5rem">Common mistakes to avoid</h2>
+    <div class="bg" style="margin-bottom:1rem">
+      <div class="bad"><em>Instead of</em>“The p-value is 0.03.”</div>
+      <div class="good"><em>Write</em>“The p-value of 0.03 suggests strong evidence against the null hypothesis, indicating satisfaction likely differs from target.”</div>
+    </div>
+    <div class="mist"><div><b>Confusing statistical and practical significance</b><span>A p-value below 0.05 doesn’t mean the difference matters in business terms.</span></div><div><b>Ignoring assumptions</b><span>Check normality, independence, and sample size, and discuss what happens if they’re violated.</span></div><div><b>Results without context</b><span>Always connect statistical findings back to the business problem.</span></div><div><b>Jargon without explanation</b><span>Your audience may not know what “null hypothesis” or “p-value” means.</span></div><div><b>Causal claims from observational data</b><span>You can show association; proving causation requires an experimental design.</span></div><div><b>Skipping limitations</b><span>Every analysis has limitations. Acknowledge them.</span></div><div><b>Code that doesn’t run</b><span>Restart and run all before you submit.</span></div></div>
+  </div>
+</section>
+
+<section id="hints">
+  <div class="wrap">
+    <h2>Phases and hints</h2>
+    <div class="two">
+      <div>
+        <h3>Phase 1: Finding the problem</h3>
+        <p style="margin:.2rem 0 .4rem">A good problem:</p>
+        <ul><li>Has a measurable outcome variable</li><li>Involves uncertainty that needs quantifying</li><li>Has a clear target or benchmark to test against</li><li>Matters to real stakeholders</li><li>Can inform an actual decision</li></ul>
+        <p style="margin:1rem 0 .4rem">Where to look: course readings, business statistics texts and cases, journals in your field, your workplace, and current business news.</p>
+        <div class="do">
+          <div>Is our customer satisfaction score significantly different from the industry average of 7.5?</div>
+          <div>Does our delivery time meet the promised 2-day target?</div>
+          <div>Is employee turnover significantly higher than the company’s historical average?</div>
+          <div>Are sales in the new product line meeting the projected $50K monthly target?</div>
+        </div>
+      </div>
+      <div>
+        <h3>Phase 2: Gathering data</h3>
+        <p style="margin:.2rem 0 .4rem">Published sources:</p>
+        <div class="chips"><a href="https://data.gov" target="_blank" rel="noopener">data.gov</a><a href="https://www.kaggle.com/datasets" target="_blank" rel="noopener">Kaggle</a><a href="https://archive.ics.uci.edu" target="_blank" rel="noopener">UCI ML Repository</a><a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a><a href="https://data.census.gov" target="_blank" rel="noopener">U.S. Census Bureau</a><a href="https://www.bls.gov/data/" target="_blank" rel="noopener">Bureau of Labor Statistics</a><a href="https://data.cdc.gov" target="_blank" rel="noopener">CDC data</a><a href="https://www.pewresearch.org/datasets/" target="_blank" rel="noopener">Pew Research</a><a href="https://www.gallup.com" target="_blank" rel="noopener">Gallup</a><a href="https://finance.yahoo.com" target="_blank" rel="noopener">Yahoo Finance</a></div>
+        <p style="margin:.8rem 0 .4rem">Company records work too, with access and permission.</p>
+        <p style="margin:.8rem 0 .4rem">If you’re collecting primary data:</p>
+        <ul><li>Define your population clearly</li><li>Use random sampling when possible</li><li>Document your collection method</li><li>Collect at least 30 observations</li><li>Consider timing and seasonal factors</li></ul>
+        <p style="margin:.8rem 0 .4rem">Your data documentation must include the source, the date collected or accessed, sample size, any cleaning or transformations, and limitations or biases. A librarian can help you find data.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.5rem;font-size:1.3rem">Frequently asked questions</h3>
+    <div class="faq"><details><summary>What if my p-value isn’t significant?</summary><p>That’s fine. Not every analysis produces a significant result. Focus on proper interpretation and business implications.</p></details><details><summary>How do I know if my problem is good enough?</summary><p>Ask yourself: does someone care about the answer, can it inform a decision, and is there uncertainty to quantify? If the answer to all three is yes, it’s good.</p></details><details><summary>Can I use a dataset we analyzed in class?</summary><p>No. You must use different data to demonstrate independent learning.</p></details><details><summary>What if I can’t meet the normality assumption?</summary><p>Discuss it in your limitations section. With n ≥ 30, the t-test is fairly robust to violations. You can also consider data transformations or non-parametric alternatives.</p></details><details><summary>How much Python code is enough?</summary><p>Data loading, descriptive statistics, assumption checks, the confidence interval, the hypothesis test, and at least 2 or 3 visualizations.</p></details><details><summary>Can I exceed 12 pages?</summary><p>Try to stay within 8 to 12 pages for the main report. Put additional details in the appendices.</p></details><details><summary>Can I make up data?</summary><p>Only if you can’t get real data because of time constraints, and only with the instructor’s permission. Ask before you start.</p></details></div>
+  </div>
+</section>
+
+<section id="checklist">
+  <div class="wrap">
+    <h2>Submission checklist</h2>
+    <p class="intro">Check items off as you go. Your progress is saved in this browser.</p>
+    <div class="checkhead">
+      <span class="count" id="count">0 of 0 complete</span>
+      <button class="btn" id="reset" type="button">Clear checklist</button>
+      <span class="done-msg" id="done" hidden>Ready to upload to Canvas.</span>
+    </div>
+    <div class="check" id="checks">
+      <label><input type="checkbox" data-k="rep"><span>Written report (PDF)</span></label>
+      <label class="sub"><input type="checkbox" data-k="r0"><span>Executive summary</span></label><label class="sub"><input type="checkbox" data-k="r1"><span>Introduction and business context</span></label><label class="sub"><input type="checkbox" data-k="r2"><span>Data description with descriptive statistics table</span></label><label class="sub"><input type="checkbox" data-k="r3"><span>Statistical methodology with assumptions checked</span></label><label class="sub"><input type="checkbox" data-k="r4"><span>Analysis and results with confidence interval and hypothesis test</span></label><label class="sub"><input type="checkbox" data-k="r5"><span>Discussion and business implications</span></label><label class="sub"><input type="checkbox" data-k="r6"><span>Conclusion</span></label><label class="sub"><input type="checkbox" data-k="r7"><span>References, properly cited</span></label><label class="sub"><input type="checkbox" data-k="r8"><span>At least 3 high-quality visualizations</span></label><label class="sub"><input type="checkbox" data-k="r9"><span>Professional formatting: 8–12 pages, page numbers, titled figures and tables</span></label>
+      <label><input type="checkbox" data-k="nb"><span>Jupyter Notebook</span></label>
+      <label class="sub"><input type="checkbox" data-k="n0"><span>Well-commented code for all analyses</span></label><label class="sub"><input type="checkbox" data-k="n1"><span>Runs without errors from top to bottom</span></label><label class="sub"><input type="checkbox" data-k="n2"><span>All outputs visible</span></label><label class="sub"><input type="checkbox" data-k="n3"><span>Clear section headers</span></label><label class="sub"><input type="checkbox" data-k="n4"><span>Reproducible, with the data file path or loading instructions</span></label>
+      <label><input type="checkbox" data-k="df"><span>Data file, if using your own: CSV or Excel, with a data dictionary</span></label>
+      <label><input type="checkbox" data-k="up"><span>All files uploaded to Canvas before Sun, Dec 13, 11:59pm</span></label>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">University of Redlands School of Business. BUAD-631-38: Data Driven Decision-Making, Professor Murray. Questions: <a href="mailto:cheyne_murray@redlands.edu">cheyne_murray@redlands.edu</a></div>
+</footer>
+
+<script>
+(function(){
+  // Tabs
+  const tabs=[...document.querySelectorAll('.tab')];
+  function select(t,focus){
+    tabs.forEach(x=>{const on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});
+    if(focus)t.focus();
+  }
+  tabs.forEach((t,i)=>{
+    t.addEventListener('click',()=>select(t));
+    t.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();
+        select(tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length],true);}
+    });
+  });
+
+  // Points bar jumps to and opens a component
+  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{
+    const d=document.getElementById(b.dataset.go);
+    d.open=true; d.scrollIntoView({block:'start'});
+    d.classList.add('flash'); setTimeout(()=>d.classList.remove('flash'),1200);
+  }));
+
+  // Checklist with per-browser memory
+  const KEY='buad631-38-project-checklist';
+  const boxes=[...document.querySelectorAll('#checks input')];
+  let saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){saved={};}
+  boxes.forEach(b=>{b.checked=!!saved[b.dataset.k];});
+  function update(){
+    const n=boxes.filter(b=>b.checked).length, t=boxes.length;
+    document.getElementById('count').textContent=n+' of '+t+' complete';
+    document.getElementById('navcount').textContent=n+' of '+t;
+    document.getElementById('navbar').style.width=(n/t*100)+'%';
+    document.getElementById('done').hidden=n!==t;
+    const s={}; boxes.forEach(b=>{if(b.checked)s[b.dataset.k]=1;});
+    try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}
+  }
+  boxes.forEach(b=>b.addEventListener('change',update));
+  document.getElementById('reset').addEventListener('click',()=>{boxes.forEach(b=>b.checked=false);update();});
+  update();
+
+  // Symbol buttons
+  const note=document.getElementById('symnote');
+  document.querySelectorAll('.sym button').forEach(b=>b.addEventListener('click',async()=>{
+    const v=b.dataset.sym||b.textContent;
+    try{await navigator.clipboard.writeText(v);b.classList.add('ok');if(note)note.textContent='Copied '+v+'. Paste it into your Word document.';}
+    catch(e){if(note)note.textContent='Copying isn’t allowed here. Select the symbol and copy it manually.';}
+    setTimeout(()=>b.classList.remove('ok'),900);
+  }));
+
+  // Copy buttons on datasets
+  document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+    const txt=b.nextElementSibling.textContent;
+    try{await navigator.clipboard.writeText(txt);b.textContent='Copied';}
+    catch(e){const r=document.createRange();r.selectNodeContents(b.nextElementSibling);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected';}
+    setTimeout(()=>b.textContent='Copy',1500);
+  }));
+})();
+</script>
+</body>
+</html>
